@@ -7,3 +7,4 @@ DATABASE_CONFIG = {
     'host': 'postgres-db',
     'port': 5432
 }
+#TODO: Figure out how to treat sensible data with python... like .env with node
