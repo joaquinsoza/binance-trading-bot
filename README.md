@@ -1,81 +1,71 @@
-# Python Trading Bot Project
+# Binance Trading Bot
 
-This repository contains the source code for a Python-based trading bot. The project utilizes Docker to ensure a consistent and isolated development environment.
+## Overview
+
+This project is a cryptocurrency trading bot for the Binance platform, specifically designed to trade on 5-minute intervals. It uses a combination of real-time data collection via WebSockets and historical data analysis to make informed trading decisions.
+
+## Features
+
+- Real-time data collection using WebSocket connections.
+- Historical data fetching to initialize the trading context.
+- Automated trading based on predefined strategies.
+- Dockerized environment for consistent and isolated execution.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
 ### Prerequisites
 
-What things you need to install the software:
+- Docker and Docker Compose installed on your machine.
+- Basic understanding of Docker and containerization.
 
-TODO: Update requirements whe needed
+### Installation and Setup
 
-- [Docker](https://www.docker.com/)
-- [Git](https://git-scm.com/) (Optional, for cloning the repository)
+1. Clone the repository:
 
-### Installing
+```bash
+git clone https://github.com/joaquinsoza/binance-trading-bot
+```
 
-A step-by-step series of examples that tell you how to get a development environment running:
+2. Navigate to the project directory:
 
-TODO: Add repository link and directory
+```bash
+cd binance-trading-bot
+```
 
-1. **Clone the Repository (Optional):**
-   git clone https://your-repository-url-here.git
-   cd your-repository-name
+3. Start the Docker environment:
 
-2. **Build the Docker Container:**
+```bash
+docker-compose up
+```
 
-- Use the provided bash script to build and run the Docker container. This script will also handle the removal of any existing containers with the same name.
-- Run the script:
-  ```
-  bash docker/run.sh
-  ```
+### Usage
 
-## Using the Application
+1. Open another terminal session and connect to the Python Docker container:
 
-TODO: Explain how to run the application, including any relevant commands or scripts.
+```bash
+bash connect_to_docker.sh -p
+```
 
-- Example command to execute the bot:
-  python your_script_name.py
+2. Inside the container, run the main application:
 
-### Code Structure
+```bash
+python main.py
+```
 
-TODO: Briefly describe the structure of your code, including the main components.
+This will initialize the database with historical data and start the WebSocket data collection.
 
-### Testing
+## Components
 
-TODO: (ADD TESTS) Explain how to run the automated tests for this system.
-
-## Deployment
-
-TODO: Add additional notes about how to deploy this on a live system.
-
-## Built With
-
-- [Python](https://www.python.org/) - The programming language used.
-- [Docker](https://www.docker.com/) - Containerization platform.
+- `btcusdt_5m_data_collector.py`: Manages the collection of 5-minute interval data for BTC/USDT.
+- `btcusdt_5m_websocket.py`: Handles the WebSocket connection for real-time data.
+- `main.py`: The main entry point of the application, orchestrating various components.
+- `fetch_historical_data.py`: Fetches historical data to provide initial context for trading decisions.
+- Other utility scripts for database initialization, configuration, and testing.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Authors
-
-- **Joaquin Soza (coderipper)** - _Initial work_ - [coderipper](https://github.com/joaquinsoza)
-
-See also the list of [contributors](link-to-contributors-page) who participated in this project.
+Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
-TODO:
-This project is licensed under the XYZ License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## Acknowledgments
-
-TODO:
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
+[MIT](https://choosealicense.com/licenses/mit/)
