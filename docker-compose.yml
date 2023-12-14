@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:latest
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: tradingbotdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - trading-net
+
+  python-app:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/workspace
+    working_dir: /workspace
+    tty: true
+    depends_on:
+      - postgres-db
+    networks:
+      - trading-net
+
+  # Add other services like frontend here
+
+networks:
+  trading-net:
+
+volumes:
+  postgres-data:

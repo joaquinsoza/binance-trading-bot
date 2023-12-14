@@ -1,0 +1,7 @@
+ta
+schedule
+ccxt
+pandas
+numpy
+websockets
+psycopg2
