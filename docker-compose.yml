@@ -28,16 +28,18 @@ services:
       - trading-net
 
   pgadmin:
-      image: dpage/pgadmin4
-      environment:
-        PGADMIN_DEFAULT_EMAIL: admin@example.com
-        PGADMIN_DEFAULT_PASSWORD: admin
-      ports:
-        - "5050:80"
-      depends_on:
-        - postgres-db
-      networks:
-        - trading-net
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hello@joaquinsoza.dev
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres-db
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    networks:
+      - trading-net
   # Add other services like frontend here
 
 networks:
