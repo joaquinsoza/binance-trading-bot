@@ -6,6 +6,10 @@ import logging
 # Setup basic logging
 logging.basicConfig(level=logging.INFO)
 
+async def logdata(json_message):
+    print("Trade: ", json_message)
+    print("----------------------------------")
+
 async def binance_ws(callback):
     url = "wss://stream.binance.com:9443/ws/btcusdt@trade"
 
@@ -19,3 +23,6 @@ async def binance_ws(callback):
             logging.error(f"WebSocket error: {e}")
             logging.info("Attempting to reconnect...")
             await asyncio.sleep(5)  # Sleep for a short time before retrying
+
+if __name__ == '__main__':
+    asyncio.run(binance_ws(logdata))
