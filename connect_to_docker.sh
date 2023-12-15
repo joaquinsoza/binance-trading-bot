@@ -7,14 +7,14 @@ while [ -n "$1" ]; do # while loop starts
 	-p) echo "+-----------------------+"
       echo "|   Connect to Python   |"
       echo "+-----------------------+"
-      containerName=binance-python-app-1
+      containerName=binance-trading-bot-python-app-1
       isSelected=true
       ;;
 
 	-db) echo "+------------------------+"
       echo "|  Connect to Postgres   |"
       echo "+------------------------+"
-      containerName=binance-postgres-db-1
+      containerName=binance-trading-bot-postgres-db-1
       isSelected=true
       ;;
   
