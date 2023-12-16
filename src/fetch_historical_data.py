@@ -39,7 +39,7 @@ def fetch_historical_data():
     exchange = ccxt.binance()
     symbol = 'BTC/USDT'
     timeframe = '5m'
-    since = exchange.parse8601('2023-10-01T00:00:00Z')  # starting date
+    since = exchange.parse8601('2023-05-01T00:00:00Z')  # starting date
     print("starting date", datetime.datetime.fromtimestamp(since/1000))
 
     latest_timestamp = get_latest_timestamp()
