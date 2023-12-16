@@ -1,16 +1,8 @@
+from db_utils import get_latest_timestamp
 import ccxt
 import psycopg2
 import datetime
 import config
-
-def get_latest_timestamp():
-    conn = psycopg2.connect(**config.DATABASE_CONFIG)
-    cur = conn.cursor()
-    cur.execute("SELECT MAX(timestamp) FROM btcusdt_5m")
-    latest_timestamp = cur.fetchone()[0]
-    cur.close()
-    conn.close()
-    return latest_timestamp
 
 def fetch_ohlcv(exchange, symbol, timeframe, limit):
     return exchange.fetch_ohlcv(symbol, timeframe, limit=limit)

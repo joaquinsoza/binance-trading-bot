@@ -9,7 +9,7 @@ import numpy as np
 from datetime import datetime
 
 exchange = ccxt.binance()
-bars = exchange.fetch_ohlcv('BTC/USDT', timeframe='5m', limit=100)
+bars = exchange.fetch_ohlcv('BTC/USDT', timeframe='5m', limit=500)
 df = pd.DataFrame(bars[:-1], columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
 df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 
