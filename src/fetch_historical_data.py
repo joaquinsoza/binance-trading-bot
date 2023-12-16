@@ -7,6 +7,18 @@ import config
 def fetch_ohlcv(exchange, symbol, timeframe, limit):
     return exchange.fetch_ohlcv(symbol, timeframe, limit=limit)
 
+def fetch_all_ohlcv(exchange, symbol, timeframe, since, limit=1000):
+    all_ohlcv = []
+    while True:
+        ohlcv = exchange.fetch_ohlcv(symbol, timeframe, since, limit)
+        print(ohlcv)
+        if len(ohlcv) == 1:
+            break
+        all_ohlcv += ohlcv
+        since = ohlcv[-1][0]  # Update 'since' to the timestamp of the last data point
+        print("Getting data from",datetime.datetime.fromtimestamp(since/1000))
+    return all_ohlcv
+
 def save_to_database(data):
     conn = psycopg2.connect(**config.DATABASE_CONFIG)
     cur = conn.cursor()
@@ -27,6 +39,8 @@ def fetch_historical_data():
     exchange = ccxt.binance()
     symbol = 'BTC/USDT'
     timeframe = '5m'
+    since = exchange.parse8601('2023-10-01T00:00:00Z')  # starting date
+    print("starting date", datetime.datetime.fromtimestamp(since/1000))
 
     latest_timestamp = get_latest_timestamp()
     now = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
@@ -43,7 +57,7 @@ def fetch_historical_data():
             print("No new data to fetch. Database is up-to-date.")
     else:
         # Default value for initial population
-        ohlcv = fetch_ohlcv(exchange, symbol, timeframe, 100)
+        ohlcv = fetch_all_ohlcv(exchange, symbol, timeframe, since, 1000)
         save_to_database(ohlcv)
 
 
