@@ -37,7 +37,7 @@ def save_to_database(data):
 
 def fetch_historical_data():
     exchange = ccxt.binance()
-    symbol = 'BTC/USDT'
+    symbol = 'IMX/USDT'
     timeframe = '5m'
     since = exchange.parse8601('2023-05-01T00:00:00Z')  # starting date
     print("starting date", datetime.datetime.fromtimestamp(since/1000))

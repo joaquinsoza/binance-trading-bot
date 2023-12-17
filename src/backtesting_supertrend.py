@@ -45,9 +45,9 @@ def check_historical_buy_sell_signals(df):
             
     return pd.DataFrame(signals)
 
-def simulate_transactions(signals_df, trade_amount=1000):
+def simulate_transactions(signals_df, trade_amount=200):
     in_position = False
-    current_amount = 2000
+    current_amount = 1000
     btc_held = 0
     transactions = []
     price_last_signal = 27059.26
@@ -90,7 +90,7 @@ def simulate_transactions(signals_df, trade_amount=1000):
     
     return pd.DataFrame(transactions)
 
-def simulate_transactions_margin(signals_df, trade_amount=500, leverage=10, stop_loss_percent=0.1):
+def simulate_transactions_margin(signals_df, trade_amount=200, leverage=5, stop_loss_percent=0.10):
     in_position = False
     account_balance = 1000  # Initial account balance
     btc_held = 0
@@ -121,27 +121,36 @@ def simulate_transactions_margin(signals_df, trade_amount=500, leverage=10, stop
                 })
         
         elif signal['signal'] == 'sell' and btc_held > 0:
-            if price <= liquidation_price:
-                print("LIQUIDATED!")
-                # Liquidation occurs
-                account_balance = 0
-                btc_held = 0
-                in_position = False
-                liquidated = True
-                transactions.append({
-                    'timestamp': timestamp, 'type': 'liquidation', 'price': price, 
-                    'btc_held': 0, 'account_balance': 0,
-                    'liquidation_price': liquidation_price
-                })
+
+            if price <= stop_loss_price or price >= buy_price:
+                if price <= liquidation_price:
+                    print("LIQUIDATED!")
+                    # Liquidation occurs
+                    account_balance = 0
+                    btc_held = 0
+                    in_position = False
+                    liquidated = True
+                    transactions.append({
+                        'timestamp': timestamp, 'type': 'liquidation', 'price': price, 
+                        'btc_held': 0, 'account_balance': 0,
+                        'liquidation_price': liquidation_price
+                    })
+                else:
+                    # Regular sell
+                    position_value = btc_held * price  # Total value of BTC held at current price
+                    profit = position_value - (trade_amount * leverage - trade_amount)  # Profit from the leveraged trade
+                    account_balance += profit  # Return the initial investment plus profit
+                    btc_held = 0
+                    in_position = False
+                    transactions.append({
+                        'timestamp': timestamp, 'type': 'sell', 'price': price, 
+                        'btc_held': btc_held, 'account_balance': account_balance,
+                        'liquidation_price': liquidation_price
+                    })
             else:
-                # Regular sell
-                position_value = btc_held * price  # Total value of BTC held at current price
-                profit = position_value - (trade_amount * leverage - trade_amount)  # Profit from the leveraged trade
-                account_balance += profit  # Return the initial investment plus profit
-                btc_held = 0
-                in_position = False
+                # Skip selling if the conditions are not met
                 transactions.append({
-                    'timestamp': timestamp, 'type': 'sell', 'price': price, 
+                    'timestamp': timestamp, 'type': 'hold', 'price': price, 
                     'btc_held': btc_held, 'account_balance': account_balance,
                     'liquidation_price': liquidation_price
                 })

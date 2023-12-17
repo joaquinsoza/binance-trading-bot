@@ -7,7 +7,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 async def binance_ws(callback):
-    url = "wss://stream.binance.com:9443/ws/btcusdt@kline_5m"
+    url = "wss://stream.binance.com:9443/ws/imxusdt@kline_5m"
 
     while True:
         try:

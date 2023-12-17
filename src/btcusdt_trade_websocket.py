@@ -11,7 +11,7 @@ async def logdata(json_message):
     print("----------------------------------")
 
 async def binance_ws(callback):
-    url = "wss://stream.binance.com:9443/ws/btcusdt@trade"
+    url = "wss://stream.binance.com:9443/ws/imxusdt@trade"
 
     while True:
         try:
