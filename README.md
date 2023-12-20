@@ -69,6 +69,3 @@ Feel free to fork the repository and submit pull requests. For major changes, pl
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-coderipper
-
-Changing a bit the readme fiel
